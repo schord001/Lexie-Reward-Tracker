@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Demon Hunter Rewards</title>
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+background:linear-gradient(135deg,#ff4fd8,#8b5cf6,#3b82f6);
+min-height:100vh;
+padding:20px;
+color:white;
+}
+
+.container{
+max-width:500px;
+margin:auto;
+}
+
+.header{
+text-align:center;
+margin-bottom:20px;
+}
+
+.header h1{
+font-size:2rem;
+}
+
+.card{
+background:rgba(255,255,255,0.15);
+backdrop-filter:blur(10px);
+border-radius:20px;
+padding:20px;
+margin-bottom:20px;
+}
+
+.points-display{
+text-align:center;
+}
+
+.points{
+font-size:3rem;
+font-weight:bold;
+color:#ffe66d;
+}
+
+.minutes{
+font-size:2rem;
+color:#90f7ff;
+}
+
+.task{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:10px;
+margin:10px 0;
+background:rgba(255,255,255,0.12);
+border-radius:12px;
+}
+
+button{
+border:none;
+border-radius:12px;
+padding:10px 16px;
+cursor:pointer;
+font-weight:bold;
+}
+
+.earn{
+background:#22c55e;
+color:white;
+}
+
+.reset{
+background:#ef4444;
+color:white;
+width:100%;
+margin-top:10px;
+}
+
+.progress{
+height:24px;
+background:rgba(255,255,255,0.2);
+border-radius:50px;
+overflow:hidden;
+margin-top:10px;
+}
+
+.progress-bar{
+height:100%;
+background:#ffe66d;
+width:0%;
+transition:0.3s;
+}
+
+.character{
+font-size:4rem;
+text-align:center;
+}
+
+.reward-msg{
+text-align:center;
+margin-top:15px;
+font-weight:bold;
+color:#ffe66d;
+}
+
+.small{
+opacity:0.9;
+font-size:0.9rem;
+text-align:center;
+margin-top:8px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="header">
+<h1>🎤 Demon Hunter Rewards ⚔️</h1>
+<p>Earn points and unlock YouTube time!</p>
+</div>
+
+<div class="card points-display">
+<div class="character">🌟</div>
+
+<div class="points" id="points">0</div>
+<div>Hunter Points</div>
+
+<br>
+
+<div class="minutes" id="minutes">0</div>
+<div>Weekend YouTube Minutes</div>
+
+<div class="progress">
+<div class="progress-bar" id="progress"></div>
+</div>
+
+<div class="small">
+10 Points = 5 YouTube Minutes
+</div>
+
+<div class="reward-msg" id="message">
+Keep training, Hunter!
+</div>
+</div>
+
+<div class="card">
+
+<div class="task">
+<span>💊 Took Medicine (+3)</span>
+<button class="earn" onclick="addPoints(3)">Done</button>
+</div>
+
+<div class="task">
+<span>🍊 Took Vitamins (+2)</span>
+<button class="earn" onclick="addPoints(2)">Done</button>
+</div>
+
+<div class="task">
+<span>🦷 Brushed Teeth (+3)</span>
+<button class="earn" onclick="addPoints(3)">Done</button>
+</div>
+
+<div class="task">
+<span>🚽 Used Toilet Properly (+2)</span>
+<button class="earn" onclick="addPoints(2)">Done</button>
+</div>
+
+<div class="task">
+<span>🛏️ Good Bedtime (+4)</span>
+<button class="earn" onclick="addPoints(4)">Done</button>
+</div>
+
+<div class="task">
+<span>😊 Good Listening (+5)</span>
+<button class="earn" onclick="addPoints(5)">Done</button>
+</div>
+
+<button class="reset" onclick="resetWeek()">
+Start New Week
+</button>
+
+</div>
+
+</div>
+
+<script>
+
+let points = parseInt(localStorage.getItem("points")) || 0;
+
+function save(){
+localStorage.setItem("points",points);
+updateDisplay();
+}
+
+function addPoints(amount){
+points += amount;
+save();
+}
+
+function resetWeek(){
+if(confirm("Start a new reward week?")){
+points = 0;
+save();
+}
+}
+
+function updateDisplay(){
+
+document.getElementById("points").textContent = points;
+
+const minutes = Math.floor(points/10)*5;
+
+document.getElementById("minutes").textContent = minutes;
+
+const progress = (points % 10) * 10;
+
+document.getElementById("progress").style.width = progress + "%";
+
+let msg = "Keep training, Hunter!";
+
+if(points >= 20) msg = "⭐ Rising Star Hunter!";
+if(points >= 50) msg = "🌟 Elite Demon Hunter!";
+if(points >= 100) msg = "👑 Legendary K-Pop Guardian!";
+
+document.getElementById("message").textContent = msg;
+
+}
+
+updateDisplay();
+
+</script>
+
+</body>
+</html>
